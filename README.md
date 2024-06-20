@@ -1,9 +1,11 @@
 
 
 Introduction
+
 Welcome to Red Baby, a 3D first-person horror game designed to immerse players in a chilling and suspenseful experience. Developed using unity Engine, I programmed all the game mechanic and use free assets for audio and textures.
 
 Gameplay
+
 In Red Baby, players explore a haunted environment, solve puzzles, and avoid enemies. The objective is to collect 15 crystals and escape the building.
 
 Controls
