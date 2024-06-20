@@ -14,7 +14,7 @@ Controls
 - E: Interact with objects
 - Q: Exit Lockers(hiding spot)
 - F: Toggle flashlight
-- [Space]: jump
+- Space: Jump
 
 Asset source:
 - Enemy (model and texture) https://cursed23.itch.io/horroy-baby-asset
