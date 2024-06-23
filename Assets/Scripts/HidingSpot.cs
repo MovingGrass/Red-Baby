@@ -6,8 +6,10 @@ public class hidingPlace : MonoBehaviour
 {
     public GameObject hideText, stopHideText;
     public GameObject normalPlayer, hidingPlayer;
-    public enemyAI monsterScript;
-    public Transform monsterTransform;
+    
+    public enemyAI[] monsterScripts; // Array to store multiple enemyAI scripts
+    public Transform[] monsterTransforms; // Array to store multiple enemy Transforms
+    
     bool interactable, hiding;
     public float loseDistance;
     public AudioSource hideSound, stopHideSound;
@@ -18,22 +20,24 @@ public class hidingPlace : MonoBehaviour
         interactable = false;
         hiding = false;
     }
+
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Reach"))
         {
-            if(detector.inTrigger == true)
+            if (detector.inTrigger)
             {
                 hideText.SetActive(true);
                 interactable = true;
             }
-            else if(detector.inTrigger == false)
+            else
             {
                 hideText.SetActive(false);
                 interactable = false;
             }
         }
     }
+
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Reach"))
@@ -42,39 +46,37 @@ public class hidingPlace : MonoBehaviour
             interactable = false;
         }
     }
+
     void Update()
     {
-        if(interactable == true)
+        if (interactable && Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            hideText.SetActive(false);
+            hideSound.Play();
+            hidingPlayer.SetActive(true);
+
+            foreach (var monsterScript in monsterScripts)
             {
-                hideText.SetActive(false);
-                hideSound.Play();
-                hidingPlayer.SetActive(true);
-                float distance = Vector3.Distance(monsterTransform.position, normalPlayer.transform.position);
-                if(distance > loseDistance)
+                float distance = Vector3.Distance(monsterScript.transform.position, normalPlayer.transform.position);
+                if (distance > loseDistance && monsterScript.chasing)
                 {
-                    if(monsterScript.chasing == true)
-                    {
-                        monsterScript.stopChase();
-                    }
+                    monsterScript.stopChase();
                 }
-                stopHideText.SetActive(true);
-                hiding = true;
-                normalPlayer.SetActive(false);
-                interactable = false;
             }
+
+            stopHideText.SetActive(true);
+            hiding = true;
+            normalPlayer.SetActive(false);
+            interactable = false;
         }
-        if(hiding == true)
+
+        if (hiding && Input.GetKeyDown(KeyCode.Q))
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                stopHideText.SetActive(false);
-                stopHideSound.Play();
-                normalPlayer.SetActive(true);
-                hidingPlayer.SetActive(false);
-                hiding = false;
-            }
+            stopHideText.SetActive(false);
+            stopHideSound.Play();
+            normalPlayer.SetActive(true);
+            hidingPlayer.SetActive(false);
+            hiding = false;
         }
     }
 }

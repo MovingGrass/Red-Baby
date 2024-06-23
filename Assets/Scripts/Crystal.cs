@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class Crystal : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private GameObject crystal;
-   
     [SerializeField] private GameObject pickUpText;
     [SerializeField] private AudioSource keySound;
 
     private bool inReach;
-
     [SerializeField] ExitDoor exitDoor;
-
 
     void Start()
     {
         inReach = false;
         pickUpText.SetActive(false);
-        
     }
-
 
     void OnTriggerEnter(Collider other)
     {
@@ -29,7 +23,6 @@ public class Crystal : MonoBehaviour
         {
             inReach = true;
             pickUpText.SetActive(true);
-
         }
     }
 
@@ -39,22 +32,19 @@ public class Crystal : MonoBehaviour
         {
             inReach = false;
             pickUpText.SetActive(false);
-
         }
     }
-
 
     void Update()
     {
         if (inReach && Input.GetButtonDown("Interact"))
         {
-            
             keySound.Play();
-            exitDoor.AddCrystal(this);
+            // Create a CrystalData object and pass it to the ExitDoor
+            CrystalData crystalData = new CrystalData(gameObject.name); // Assuming the name is unique and used as the ID
+            exitDoor.AddCrystal(crystalData);
             pickUpText.SetActive(false);
             crystal.SetActive(false);
         }
-
-        
     }
 }

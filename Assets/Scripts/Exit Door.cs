@@ -5,8 +5,7 @@ using TMPro;
 
 public class ExitDoor : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private List<Crystal>Crystals;
+    private List<CrystalData> collectedCrystals;
     [SerializeField] private bool inReach;
 
     [SerializeField] private SceneChanger sceneChanger;
@@ -17,30 +16,40 @@ public class ExitDoor : MonoBehaviour
     [SerializeField] private GameObject CollectText;
     [SerializeField] private int crystal_number;
 
-     [SerializeField] private TextMeshProUGUI crystalCountText;
+    [SerializeField] private TextMeshProUGUI crystalCountText;
 
     private void Awake()
     {
-        Crystals = new List<Crystal>();
+        collectedCrystals = new List<CrystalData>();
         open = false;
         inReach = false;
         UpdateCrystalCountText();
     }
 
-    public void AddCrystal(Crystal crystal)
+    public void AddCrystal(CrystalData crystal)
     {
-        Crystals.Add(crystal);
+        collectedCrystals.Add(crystal);
+        UpdateCrystalCountText();
     }
-    
-     void OnTriggerEnter(Collider other)
+
+    public List<CrystalData> GetCollectedCrystals()
+    {
+        return collectedCrystals;
+    }
+
+    public void SetCollectedCrystals(List<CrystalData> crystals)
+    {
+        collectedCrystals = crystals;
+        UpdateCrystalCountText();
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Reach" && open == false)
         {
             inReach = true;
             ExitText.SetActive(true);
-           
         }
-
     }
 
     void OnTriggerExit(Collider other)
@@ -49,28 +58,28 @@ public class ExitDoor : MonoBehaviour
         {
             inReach = false;
             ExitText.SetActive(false);
-            CollectText.SetActive(false);        
+            CollectText.SetActive(false);
         }
-        
     }
-   
+
     void Update()
     {
-        if (inReach && Input.GetButtonDown("Interact") && Crystals.Count == crystal_number )
+        if (inReach && Input.GetButtonDown("Interact") && collectedCrystals.Count == crystal_number)
         {
-            Debug.Log("15");
             sceneChanger.ChangeSceneString("Win");
         }
-        else if (inReach && Input.GetButtonDown("Interact") && Crystals.Count < crystal_number)
+        else if (inReach && Input.GetButtonDown("Interact") && collectedCrystals.Count < crystal_number)
         {
             CollectText.SetActive(true);
             ExitText.SetActive(false);
         }
-         UpdateCrystalCountText();
-    }
-    private void UpdateCrystalCountText()
-    {
-        crystalCountText.text = "Crystal collected:\n" + Crystals.Count + " / " + crystal_number;
+        UpdateCrystalCountText();
     }
 
+    private void UpdateCrystalCountText()
+    {
+        crystalCountText.text = "Crystal collected:\n" + collectedCrystals.Count + " / " + crystal_number;
+    }
 }
+
+
