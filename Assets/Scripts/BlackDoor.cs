@@ -23,7 +23,27 @@ public class BlackDoor : MonoBehaviour
 
     private bool open;
 
+    public bool IsOpen()
+    {
+        return open;
+    }
 
+    public void SetDoorState(bool state)
+    {
+        open = state;
+        // Update the animator immediately to match the saved state
+        if(open)
+        {
+            door.SetBool("Open", true);
+            door.SetBool("Closed", false);
+        }
+        else
+        {
+            door.SetBool("Open", false);
+            // If we load a closed door, ensure the animation is in closed state
+            door.SetBool("Closed", true); 
+        }
+    }
 
 
 

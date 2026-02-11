@@ -1,20 +1,25 @@
-using System.Collections.Generic; 
-using UnityEngine; 
+using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class GameData
 {
+    
     public List<CrystalData> collectedCrystals;
+    public float[] playerPos;
+    public float[] enemy1Pos;
+    public float[] enemy2Pos;
     public List<bool> gameObjectStates;
-    public Vector3 playerPosition;
-    public Vector3 enemyPosition1;
-    public Vector3 enemyPosition2;
+
+   
+    public float[] lookRotation; 
+    public bool isFlashlightOn;
+    public List<bool> doorStates;
 
     public GameData()
     {
-        gameObjectStates = new List<bool>();
         collectedCrystals = new List<CrystalData>();
+        gameObjectStates = new List<bool>();
+        doorStates = new List<bool>();
     }
 }
-
-

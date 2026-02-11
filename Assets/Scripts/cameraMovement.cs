@@ -12,6 +12,10 @@ public class CameraMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         LoadSettings();
+
+        xRotation = 0f; 
+        transform.localRotation = Quaternion.Euler(45f, 0f, 0f);
+        
     }
 
     void Update()
@@ -31,7 +35,23 @@ public class CameraMovement : MonoBehaviour
         if (PlayerPrefs.HasKey("controllerSensitivity"))
         {
             mouseSensitivity = PlayerPrefs.GetInt("controllerSensitivity");
+            Debug.Log("ada");
         }
+        else
+        {
+            Debug.Log(" nah ");
+        }
+    }
+
+    public void SetLookRotation(float xRot)
+    {
+        xRotation = xRot;
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    public float GetXRotation()
+    {
+        return xRotation;
     }
 }
 

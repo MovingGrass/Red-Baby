@@ -78,13 +78,43 @@ public class MenuControl : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        volumetextvalue.text = volume.ToString("0.0");
+        // 1. Update Teks Visual (cegah error jika text null)
+        if (volumetextvalue != null)
+        {
+            volumetextvalue.text = volume.ToString("0.0");
+        }
+
+        // 2. Terapkan volume ke AudioListener (agar terdengar di menu)
         AudioListener.volume = volume;
+
+        // 3. Update Slider Value (agar sinkron)
+        if (volumeslider != null)
+        {
+            volumeslider.value = volume;
+        }
+
+        // 4. PAKSA SIMPAN SEKARANG JUGA (Kunci utamanya)
+        PlayerPrefs.SetFloat("volume", volume);
+        PlayerPrefs.Save(); // Tulis ke disk langsung!
+
+        Debug.Log("Volume Saved Immediately: " + volume);
     }
 
     public void SetControllerSensitivity(float sensitivity)
     {
+       
         controllerSenTextValue.text = sensitivity.ToString("0");
+        
+       
         mainControllerSen = (int)sensitivity;
+
+        
+        controllerSensSlider.value = sensitivity;
+
+        
+        PlayerPrefs.SetInt("controllerSensitivity", (int)sensitivity);
+        PlayerPrefs.Save(); 
+
+        Debug.Log("Sensitivity Saved Immediately: " + (int)sensitivity);
     }
 }

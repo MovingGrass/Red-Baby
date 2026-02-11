@@ -22,7 +22,16 @@ public class Flashlight : MonoBehaviour
     }
 
 
-
+    public void SetFlashlightState(bool state)
+    {
+        isOn = state;
+        flashlight.SetActive(state);
+    }
+    
+    public bool IsOn()
+    {
+        return isOn;
+    }
 
     void Update()
     {
